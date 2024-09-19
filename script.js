@@ -35,8 +35,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 // - - - - - - - - -  משתני דגל - - - - - - - - - -//
-var theTeam = [];
-var baseUrl = 'https://nbaserver-q21u.onrender.com/api/filter';
+var teams = [];
+var playersList = [];
+var baseUrl = 'https://nbaserver-q21u.onrender.com/api';
 var myTeam = document.querySelector(".myTeam");
 var positionSearch = document.querySelector(".positionSearch");
 var pointsSearch = document.querySelector(".pointsSearch");
@@ -53,8 +54,10 @@ var pfDetails = document.querySelector(".PF");
 var sfDetails = document.querySelector(".SF");
 var sgDetails = document.querySelector(".SG");
 var pgDetails = document.querySelector(".PG");
+var saveTeamBtn = document.querySelector(".saveTeamBtn");
 // - - - - - - אירועים - - - - - - //
 searchBtn.addEventListener("click", getPlayers);
+saveTeamBtn.addEventListener("click", saveTeam);
 pointsSearch.addEventListener("change", function () { pointsNumber.innerHTML = pointsSearch.value; });
 p3Percent.addEventListener("change", function () { p3Number.innerHTML = p3Percent.value; });
 p2Percent.addEventListener("change", function () { p2Number.innerHTML = p2Percent.value; });
@@ -67,7 +70,7 @@ function getPlayers() {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 3, , 4]);
-                    return [4 /*yield*/, fetch(baseUrl, {
+                    return [4 /*yield*/, fetch(baseUrl + "/filter", {
                             method: "POST",
                             headers: { "content-type": "application/json" },
                             body: JSON.stringify({
@@ -161,6 +164,8 @@ function addPlayer(player) {
     return __awaiter(this, void 0, void 0, function () {
         var name, p3, p2, pnt, pos, playerDiv;
         return __generator(this, function (_a) {
+            playersList = playersList.filter(function (p) { return p.position != player.position; });
+            playersList.push(player);
             name = document.createElement("p");
             name.textContent = player.playerName;
             p3 = document.createElement("p");
@@ -178,6 +183,41 @@ function addPlayer(player) {
             playerDiv.appendChild(pnt);
             alert("".concat(player.playerName, " !!\u05D4\u05E6\u05D8\u05E8\u05E3 \u05DC\u05E7\u05D1\u05D5\u05E6\u05EA\u05DA \u05D1\u05D4\u05E6\u05DC\u05D7\u05D4"));
             return [2 /*return*/];
+        });
+    });
+}
+// שמירת קבוצה
+function saveTeam() {
+    return __awaiter(this, void 0, void 0, function () {
+        var response, err_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    if (!(playersList.length == 5)) return [3 /*break*/, 5];
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, fetch(baseUrl + "/AddTeam", {
+                            method: "POST",
+                            headers: { "content-type": "application/json" },
+                            body: JSON.stringify({
+                                _id: "001",
+                                players: playersList
+                            })
+                        })];
+                case 2:
+                    response = _a.sent();
+                    return [3 /*break*/, 4];
+                case 3:
+                    err_2 = _a.sent();
+                    console.log("error");
+                    return [3 /*break*/, 4];
+                case 4: return [3 /*break*/, 6];
+                case 5:
+                    alert("יש לשלוח 5 שחקנים!");
+                    _a.label = 6;
+                case 6: return [2 /*return*/];
+            }
         });
     });
 }

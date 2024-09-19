@@ -1,6 +1,7 @@
 // - - - - - - - - -  משתני דגל - - - - - - - - - -//
-const theTeam: Player[] = []
-const baseUrl: string = 'https://nbaserver-q21u.onrender.com/api/filter'
+const teams: Team[] = []
+let playersList: Player[] = []
+const baseUrl: string = 'https://nbaserver-q21u.onrender.com/api'
 const myTeam: HTMLDivElement = document.querySelector(".myTeam")!
 const positionSearch: HTMLInputElement = document.querySelector(".positionSearch")!
 const pointsSearch: HTMLInputElement = document.querySelector(".pointsSearch")!
@@ -17,9 +18,19 @@ const pfDetails: HTMLDivElement = document.querySelector(".PF")!
 const sfDetails: HTMLDivElement = document.querySelector(".SF")!
 const sgDetails: HTMLDivElement = document.querySelector(".SG")!
 const pgDetails: HTMLDivElement = document.querySelector(".PG")!
+const saveTeamBtn: HTMLButtonElement = document.querySelector(".saveTeamBtn")!
+
+
+
+// - - - - - - אתחול העמוד - - - - - - // 
+
 
 
 // - - - - - - ממשקים - - - - - - // 
+interface Team{
+    team: [Player,Player,Player,Player,Player]
+}
+
 interface Player {
     _id: string,
     playerName: string,
@@ -37,17 +48,17 @@ interface Player {
 
 // - - - - - - אירועים - - - - - - //
 searchBtn.addEventListener("click", getPlayers)
+saveTeamBtn.addEventListener("click", saveTeam)
 pointsSearch.addEventListener("change", () => { pointsNumber.innerHTML = pointsSearch.value })
 p3Percent.addEventListener("change", () => { p3Number.innerHTML = p3Percent.value })
 p2Percent.addEventListener("change", () => { p2Number.innerHTML = p2Percent.value })
 
 
 // - - - - - - פונקציות - - - - - - //
-
 // רשימת השחקנים מבסיס הנתונים
 async function getPlayers(): Promise<void> {
     try {
-        const response = await fetch(baseUrl, {
+        const response: Response = await fetch(baseUrl + "/filter", {
             method: "POST",
             headers: { "content-type": "application/json" },
             body: JSON.stringify({
@@ -67,6 +78,7 @@ async function getPlayers(): Promise<void> {
         console.log("error")
     }
 }
+
 
 // הצגת השחקנים בטבלה
 async function displayPlayersInTheTable(players: Player[]): Promise<void> {
@@ -129,8 +141,11 @@ async function displayPlayersInTheTable(players: Player[]): Promise<void> {
     }
 }
 
+
 // הוספת שחקן לקבוצה והצגה שלו בדף
 async function addPlayer(player: Player): Promise<void> {
+    playersList = playersList.filter(p => p.position != player.position)
+    playersList.push(player)
     const name: HTMLParagraphElement = document.createElement("p")
     name.textContent = player.playerName
     const p3: HTMLParagraphElement = document.createElement("p")
@@ -148,4 +163,26 @@ async function addPlayer(player: Player): Promise<void> {
     playerDiv.appendChild(p2)
     playerDiv.appendChild(pnt)
     alert(`${player.playerName} !!הצטרף לקבוצתך בהצלחה`)
+}
+
+// שמירת קבוצה
+async function saveTeam() {
+    if(playersList.length == 5){
+        try{
+        const response: Response = await fetch(baseUrl + "/AddTeam", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify ({
+                _id: "001",
+                players: playersList
+            })
+        })
+}
+        catch(err){
+            console.log("error")           
+        }
+    }
+    else{
+        alert("יש לשלוח 5 שחקנים!")
+    }
 }
