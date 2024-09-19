@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <h1>NBA FANTAZY 2024</h1>
+    <h2>!ברוכים הבאים לקבוצת הפנטזי של יהונתן</h2>
+    <div class="myTeam">
+        <div class="player">
+            <div class="cPosition">Center</div>
+            <div class="C"></div>
+        </div>
+        <div class="player">
+            <div class="pfPosition">Power Forward</div>
+            <div class="PF"></div>
+        </div>
+        <div class="player">
+            <div class="sfPosition">Small Forward</div>
+            <div class="SF"></div>
+        </div>
+        <div class="player">
+            <div class="sgPosition">Shooting Guard</div>
+            <div class="SG"></div>
+        </div>
+        <div class="player">
+            <div class="pgPosition">Point Guuard</div>
+            <div class="PG"></div>
+        </div>
+    </div>
+    <div class="searchDiv">
+    <div class="serchPlayers">
+        <select name="" class="positionSearch">
+            <option value="PG" class="position">PG</option>
+            <option value="SG" class="position">SG</option>
+            <option value="SF" class="position">SF</option>
+            <option value="PF" class="position">PF</option>
+            <option value="C" class="position">C</option>
+        </select>
+        <div class="rangeNumber">
+        <input type="range" min="0" max="20000" value="10000" class="pointsSearch">
+        <p class="pointsNumber">10000</p>
+        </div>
+        <div class="rangeNumber">
+        <input type="range" min="0" max="100" value="50" class="p3Percent">
+        <p class="p3Number">50</p>
+        </div>
+        <div class="rangeNumber">
+        <input type="range" min="0" max="100" value="50" class="p2Percent">
+        <p class="p2Number">50</p>
+        </div>
+        <button class="searchBtn" >חפש</button>
+    </div>
+</div>
+<div class="tableDiv">
+    <table class="playersTable">
+        <thead>
+            <tr>
+                <th>שם שחקן</th>
+                <th>עמדה</th>
+                <th>נקודות</th>
+                <th>אחוז קליעות מ-2</th>
+                <th>אחוז קליעות מ-3</th>
+                <th>הוספה לקבוצה</th>
+            </tr>
+        </thead>
+        <tbody class="rowsInTable">
+        </tbody>
+        </table>
+    </div>
+</body>
+</html>
